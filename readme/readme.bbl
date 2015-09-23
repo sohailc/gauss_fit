@@ -1,0 +1,8 @@
+\begin{thebibliography}{1}
+
+\bibitem{ctypes}
+Guy~K. Kloss.
+\newblock {Automatic C Library Wrapping - Ctypes from the Trenches}.
+\newblock {\em The Python Papers}, 3(3), December 2008.
+
+\end{thebibliography}
