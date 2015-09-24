@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """
 A 2D gaussian function is sampled randomely at 10000 points and noise is
 added to the resulting dataset. The parameters of the gaussian function 
