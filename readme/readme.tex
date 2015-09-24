@@ -30,18 +30,18 @@
 
 \section{Introduction}
 
-This read-me file describes a library written in C for fitting two-dimensional gaussian functions. To test this library, we have a Python script which interfaces with it using ctypes \cite{ctypes}. The Python script generates a random set of points in $\mathbb{R}^2$ over a region $x_{min}$, $x_{max}$, $y_{min}$ and $y_{max}$ with a uniform distribution. We use $N=10000$ and calculate the value $Z=f(X,Y)+\text{noise}$. Here, $f(X,Y)$ is a 2D Gaussian function:
+This read-me file describes a library written in C for fitting two-dimensional Gaussian functions. To test this library, we have a Python script which interfaces with it using ctypes \cite{ctypes}. The Python script generates a random set of points in $\mathbb{R}^2$ over a region $x_{min}$, $x_{max}$, $y_{min}$ and $y_{max}$ with a uniform distribution. We use $N=10000$ and calculate the value $Z=f(X,Y)+\text{noise}$. Here, $f(X,Y)$ is a 2D Gaussian function:
 
 \begin{equation}
 f_{\overrightarrow{p}}(X,Y) = A\exp(-\frac{(X-\mu_x)^2}{2\sigma_x^2}-\frac{(Y-\mu_y)^2}{2\sigma_y^2}) + flr
 \label{twoDGauss}
 \end{equation}
 
-The Python script also chooses the parameter vector of this function, \\$\overrightarrow{p}=[\mu_x, \mu_y, \sigma_x, \sigma_y, A, flr]^T$ at random. A successful test will retrive the parameters used to generate the dataset, within a margin of error. In addition, the Python script will graphically display the results of the fit in a plot. 
+The Python script also chooses the parameter vector of this function, \\$\overrightarrow{p}=[\mu_x, \mu_y, \sigma_x, \sigma_y, A, flr]^T$ at random. A successful test will retrieve the parameters used to generate the data set, within a margin of error. In addition, the Python script will graphically display the results of the fit in a plot. 
 
 \section{Gauss-Newton method for iterative Least-Squares fitting} \label{sec_fit}
 
-We use the Gauss-Newton method to fit a Gaussian function. This method can be summerized as follows:  
+We use the Gauss-Newton method to fit a Gaussian function. This method can be summarized as follows:  
 
 \begin{algorithm}[ht]
 	\KwData{Column vectors of independent sample points $\overrightarrow{X}$ and $\overrightarrow{Y}$ and observations $\overrightarrow{Z}$ of length $N$}
@@ -49,7 +49,7 @@ We use the Gauss-Newton method to fit a Gaussian function. This method can be su
 	First guess fit parameters $\overrightarrow{p}=\text{initial\_estimate}(\overrightarrow{X},\overrightarrow{Y},\overrightarrow{Z})$\;
 	\While{True}{
 		Evaluate the vector $\overrightarrow{r}=[r_1,r_2,..., r_N]^T$ with $r_n=Z_n-f_{p}(X_n,Y_n)$\;
-		Evaluate jacobian $\mathbf{J}=\left[ \begin{array}{cccc}
+		Evaluate Jacobean $\mathbf{J}=\left[ \begin{array}{cccc}
 		\frac{\partial r_1}{\partial p_1}, \frac{\partial r_1}{\partial p_2}, ..., \frac{\partial r_1}{\partial p_6} \\
 		\frac{\partial r_2}{\partial p_1}, \frac{\partial r_2}{\partial p_2}, ..., \frac{\partial r_2}{\partial p_6} \\
 		\vdots\\
@@ -76,7 +76,7 @@ flr^* &= \min(Z) \\
 A^* &= \max(Z)-\min(Z)
 \end{align}
 
-Symbols with an asterics mark $^*$ denote an initial estimate. The initial estimates for $\mu_x$ and $\mu_y$ are found by calculating the weighted center of mass of the $(X,Y)$ sample points with the weight factors given by $Z$ 
+Symbols with an asterisk mark $^*$ denote an initial estimate. The initial estimates for $\mu_x$ and $\mu_y$ are found by calculating the weighted center of mass of the $(X,Y)$ sample points with the weight factors given by $Z$ 
 
 \begin{align}
 \mu_x^* &= \frac{\sum\limits_{n=1}^N (Z_n-flr^*)X_n}{\sum\limits_{n=1}^N(Z_n-flr^*)}\\
@@ -86,7 +86,7 @@ Symbols with an asterics mark $^*$ denote an initial estimate. The initial estim
 We find initial estimates for $\sigma_x$ and $\sigma_y$ by using the following property of the Gaussian function 
 
 \begin{equation}
-\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}A\exp(-\frac{(X-\mu_x)^2}{2\sigma_x^2}-\frac{(Y-\mu_y)^2}{2\sigma_y^2})dxdy=2A\pi\sigma_x\sigma_y
+\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}A\exp(-\frac{(X-\mu_x)^2}{2\sigma_x^2}-\frac{(Y-\mu_y)^2}{2\sigma_y^2})DST=2A\pi\sigma_x\sigma_y
 \end{equation}
 
 We approximate the double integral by a summation over $Z$ and find:
@@ -214,7 +214,7 @@ matrix Y,
 matrix *b)
 \end{lstlisting} \\
 \hline
-\textbf{description} & Find $\mathbf{b}$ for which $\norm{\mathbf{Xb}-\mathbf{Y}}^2$ is minimized. We use cholesky factorization to accomplish this\\
+\textbf{description} & Find $\mathbf{b}$ for which $\norm{\mathbf{Xb}-\mathbf{Y}}^2$ is minimized. We use Cholesky factorization to accomplish this\\
 \hline
 \multicolumn{2}{l}{\textbf{inputs}} \\
  \hline
@@ -228,7 +228,7 @@ b & $\mathbf{b}$ is a n-by-o matrix \\
 \hline
 \multicolumn{2}{l}{\textbf{return value}} \\
 \hline
-EXIT\_FAIL & If the matrix $\mathbf{X}\mathbf{X}^T$ is not invertable \\
+EXIT\_FAIL & If the matrix $\mathbf{X}\mathbf{X}^T$ is not invertible \\
 \hline
 EXIT\_SUCCESS & If the fit has succeeded \\
 \hline
@@ -239,7 +239,7 @@ EXIT\_SUCCESS & If the fit has succeeded \\
 
 As explained in the introduction, a Python script is used to test the library and visualize the results. We use ctypes to interface to the library, matplotlib for plotting and numpy for general math and statistical functions. 
 
-An array $X$ of random values between the limits $x_{min}$, $x_{max}$ of length $N$ represents the x-coordinates where we sample function \ref{twoDGauss}. Similarly, an array $Y$ between $y_{min}$, $y_{max}$ of length $N$ represents the y-coordinates. We then contruct a Voronoi diagram based on these $X$ and $Y$ positions, where the interior color of the Voronoi cells are determined by the value of function \ref{twoDGauss} at that point. Figure \ref{fig_fit_part} illustrates this. 
+An array $X$ of random values between the limits $x_{min}$, $x_{max}$ of length $N$ represents the x-coordinates where we sample function \ref{twoDGauss}. Similarly, an array $Y$ between $y_{min}$, $y_{max}$ of length $N$ represents the y-coordinates. We then construct a Voronoi diagram based on these $X$ and $Y$ positions, where the interior color of the Voronoi cells are determined by the value of function \ref{twoDGauss} at that point. Figure \ref{fig_fit_part} illustrates this. 
 
 \begin{figure}
 \includegraphics[width=1.0\textwidth]{randomSamples.png}
@@ -254,13 +254,13 @@ On this Voronoi diagram we superimpose a plot of an ellipse given by the implici
 \label{ellipse}
 \end{equation}
 
-To reiterate, $\tilde{\mu_x}$, $\tilde{\mu_y}$, $\tilde{\sigma_x}$ and $\tilde{\sigma_y}$ are estimates of the parameters used to generated the dataset $(X,Y,Z)$ by applying the least squares fit as outlined in section \ref{sec_fit}
+To reiterate, $\tilde{\mu_x}$, $\tilde{\mu_y}$, $\tilde{\sigma_x}$ and $\tilde{\sigma_y}$ are estimates of the parameters used to generated the data set $(X,Y,Z)$ by applying the least squares fit as outlined in section \ref{sec_fit}
 
 The results of a complete fit are shown in figure \ref{fig_fit}. 
 
 \begin{figure}
 \includegraphics[width=1.0\textwidth]{randomSamples_whole.png}
-\caption{Here we see the results of our fitting libarary on the entire dataset}
+\caption{Here we see the results of our fitting library on the entire data set}
 \label{fig_fit}
 \end{figure}
 
