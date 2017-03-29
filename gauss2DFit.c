@@ -221,9 +221,9 @@ int estimateParams(matrix xy, matrix z, matrix *estimates)
 	double volumeUnderGauss = totalZ*dx*dy;
 	
 	//                       inf inf
-	//						 /    /
+	//			  /    /
 	// 1/(2*pi*sigx*sigy)  * |    | exp(-wx^2-wy^2) dx dy = 1
-	//						 /    /
+	//			/    /
 	//                    -inf  -inf
 	
 	// A = volumeUnderGauss / (2*pi*sigx*sigy)
@@ -247,11 +247,11 @@ int estimateParams(matrix xy, matrix z, matrix *estimates)
 	return EXIT_SUCCESS;
 }
 
-int gaussian2DFit(	double x[], 
-					double y[], 
-					double intensities[], 
-					int dataSize, 
-					double (*paramsArray)[])
+int gaussian2DFit(double x[], 
+		  double y[],
+		  double intensities[],
+		  int dataSize,
+		  double (*paramsArray)[])
 {
 	int result = EXIT_SUCCESS;
 	
@@ -275,12 +275,12 @@ int gaussian2DFit(	double x[],
 	matrix paramsInit, params;
 	EVAL(estimateParams(xy,z,&paramsInit));
 	
-	double (*derivatives[])(matrix, matrix) = {	derivative_ROverMux, 
-												derivative_ROverMuy, 
-												derivative_ROverSigx, 
-												derivative_ROverSigy, 
-												derivative_ROverA, 
-												derivative_ROverZnull};
+	double (*derivatives[])(matrix, matrix) = {derivative_ROverMux,
+						   derivative_ROverMuy,
+						   derivative_ROverSigx,
+						   derivative_ROverSigy,
+						   derivative_ROverA,
+						   derivative_ROverZnull};
 	
 	if (gaussNewton(xy, z, paramsInit, fitFunction, derivatives, &params) == EXIT_FAIL)
 	{
