@@ -38,12 +38,12 @@ int computeJacobian(matrix x, matrix params, double (*derivatives[])(matrix, mat
 	return EXIT_SUCCESS;
 }
 
-int iteration(	matrix x,
-						matrix y, 
-						matrix *params,
-						int (*fitFunction)(matrix,matrix,matrix*),
-						double (*derivatives[])(matrix, matrix),
-						double *precesion)
+int iteration(matrix x,
+	      matrix y,
+	      matrix *params,
+	      int (*fitFunction)(matrix,matrix,matrix*),
+	      double (*derivatives[])(matrix, matrix),
+	      double *precesion)
 {
 	
 	int N = x.m;
@@ -82,12 +82,12 @@ int iteration(	matrix x,
 	return EXIT_SUCCESS;
 }
 
-int gaussNewton(matrix x, 
-				matrix y, 
-				matrix paramsInit,
-				int (*fitFunction)(matrix,matrix,matrix*),
-				double (*derivatives[])(matrix, matrix),
-				matrix *paramsFinal)
+int gaussNewton(matrix x,
+		matrix y,
+		matrix paramsInit,
+		int (*fitFunction)(matrix,matrix,matrix*),
+		double (*derivatives[])(matrix, matrix),
+		matrix *paramsFinal)
 {
 	double precision = 0.001;
 	int countIter = 0, maxIter = 100;
